@@ -12,7 +12,7 @@ func GetBalance(c *gin.Context) {
 	account, err := api.RestApi.GetAccount()
 	if err != nil {
 		c.JSON(400, gin.H{
-			"message": err.Error(),
+			"error": err.Error(),
 		})
 		return
 	}

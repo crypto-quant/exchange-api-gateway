@@ -33,5 +33,6 @@ func main() {
 	})
 
 	r.GET("/balance", handler.GetBalance)
+	r.POST("/limit_order", handler.LimitOrder)
 	r.Run("127.0.0.1:8080")
 }
