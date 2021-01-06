@@ -37,3 +37,9 @@ curl -X POST http://localhost:8080/limit_order -H 'content-type: application/jso
   }
 }
 ```
+
+```json
+{
+  "error": "Key: 'Order.Vol' Error:Field validation for 'Vol' failed on the 'required' tag"
+}
+```
