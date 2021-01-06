@@ -34,5 +34,6 @@ func main() {
 
 	r.GET("/balance", handler.GetBalance)
 	r.POST("/limit_order", handler.LimitOrder)
+	r.POST("/market_order", handler.MarketOrder)
 	r.Run("127.0.0.1:8080")
 }
