@@ -1,0 +1,8 @@
+http_client_config:
+  proxy: http://127.0.0.1:41091
+  max_idle_conns: 10
+  timeout: 5
+
+binance:
+  api_key: abc
+  secret_key: 123
