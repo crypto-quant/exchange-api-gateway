@@ -37,5 +37,6 @@ func main() {
 	r.POST("/market_order", handler.MarketOrder)
 	r.POST("/cancel_order", handler.CancelOrder)
 	r.POST("/get_order", handler.GetOrder)
+	r.POST("/get_unfinished_order", handler.GetUnfinishedOrders)
 	r.Run("127.0.0.1:8080")
 }

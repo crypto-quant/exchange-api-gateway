@@ -94,3 +94,72 @@ curl -X POST http://localhost:8080/get_order  -H 'content-type: application/json
   }
 }
 ```
+
+### get unfinished orders
+
+```shell
+curl -X POST http://localhost:8080/get_unfinished_order  -H 'content-type: application/json' -d '{ "pair": "BTC-USDT" }'
+```
+
+```json
+{
+  "data": [
+    {
+      "Price": 45000,
+      "Amount": 0.01,
+      "AvgPrice": 0,
+      "DealAmount": 0,
+      "Fee": 0,
+      "Cid": "mtBXJq8W3hUDp6uo3JoMr1",
+      "OrderID2": "4.180071516e+09",
+      "OrderID": 4180071516,
+      "Status": 0,
+      "Currency": {
+        "CurrencyA": {
+          "Symbol": "BTC",
+          "Desc": "https://bitcoin.org/"
+        },
+        "CurrencyB": {
+          "Symbol": "USDT",
+          "Desc": ""
+        },
+        "AmountTickSize": 0,
+        "PriceTickSize": 0
+      },
+      "Side": 2,
+      "Type": "",
+      "OrderType": 0,
+      "OrderTime": 1609947390627,
+      "FinishedTime": 1609947390627
+    },
+    {
+      "Price": 38000,
+      "Amount": 0.1,
+      "AvgPrice": 0,
+      "DealAmount": 0,
+      "Fee": 0,
+      "Cid": "jbTM8KGKai9SOFBAPzBg80",
+      "OrderID2": "4.180079391e+09",
+      "OrderID": 4180079391,
+      "Status": 0,
+      "Currency": {
+        "CurrencyA": {
+          "Symbol": "BTC",
+          "Desc": "https://bitcoin.org/"
+        },
+        "CurrencyB": {
+          "Symbol": "USDT",
+          "Desc": ""
+        },
+        "AmountTickSize": 0,
+        "PriceTickSize": 0
+      },
+      "Side": 2,
+      "Type": "",
+      "OrderType": 0,
+      "OrderTime": 1609947437804,
+      "FinishedTime": 1609947437804
+    }
+  ]
+}
+```

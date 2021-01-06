@@ -4,7 +4,6 @@ import (
 	"math"
 
 	"github.com/crypto-quant/exchange-api-gateway/api"
-	"github.com/crypto-quant/exchange-api-gateway/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/nntaoli-project/goex"
 )
@@ -112,6 +111,29 @@ func GetOrder(c *gin.Context) {
 	if math.IsNaN(order.AvgPrice) {
 		order.AvgPrice = 0
 	}
-	logger.GetLogger().Info(order.AvgPrice)
 	c.JSON(200, gin.H{"data": order})
+}
+
+type GetUnfinishedOrdersParams struct {
+	Pair string `json:"pair" binding:"required"`
+}
+
+func GetUnfinishedOrders(c *gin.Context) {
+	var orderParams GetUnfinishedOrdersParams
+	if err := c.ShouldBindJSON(&orderParams); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	orders, err := api.RestApi.GetUnfinishOrders(goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	for index, order := range orders {
+		if math.IsNaN(order.AvgPrice) {
+			orders[index].AvgPrice = 0
+		}
+	}
+	c.JSON(200, gin.H{"data": orders})
 }
