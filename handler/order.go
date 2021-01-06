@@ -68,3 +68,23 @@ func MarketOrder(c *gin.Context) {
 		c.JSON(200, gin.H{"data": order})
 	}
 }
+
+type CancelOrderParams struct {
+	OrderId string `json:"order_id" binding:"required"`
+	Pair    string `json:"pair" binding:"required"`
+}
+
+func CancelOrder(c *gin.Context) {
+	var orderParams CancelOrderParams
+	if err := c.ShouldBindJSON(&orderParams); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	order, err := api.RestApi.CancelOrder(orderParams.OrderId, goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"data": order})
+}

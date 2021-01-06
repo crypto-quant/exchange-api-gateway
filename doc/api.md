@@ -43,3 +43,15 @@ curl -X POST http://localhost:8080/limit_order -H 'content-type: application/jso
   "error": "Key: 'Order.Vol' Error:Field validation for 'Vol' failed on the 'required' tag"
 }
 ```
+
+### cancel order
+
+```shell
+curl -X POST http://localhost:8080/cancel_order  -H 'content-type: application/json' -d '{ "order_id": "4180096286", "pair": "BTC-USDT" }'
+```
+
+```json
+{
+  "data": true
+}
+```
