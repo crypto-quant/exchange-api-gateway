@@ -9,7 +9,7 @@ import (
 
 func GetBalance(c *gin.Context) {
 	assets := make(map[string]float64)
-	account, err := api.WalletApi.GetAccount()
+	account, err := api.RestApi.GetAccount()
 	if err != nil {
 		c.JSON(400, gin.H{
 			"message": err.Error(),
