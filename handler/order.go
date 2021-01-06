@@ -2,6 +2,8 @@ package handler
 
 import (
 	"math"
+	"strconv"
+	"time"
 
 	"github.com/crypto-quant/exchange-api-gateway/api"
 	"github.com/gin-gonic/gin"
@@ -136,4 +138,28 @@ func GetUnfinishedOrders(c *gin.Context) {
 		}
 	}
 	c.JSON(200, gin.H{"data": orders})
+}
+
+func CancelAllOrders(c *gin.Context) {
+	var orderParams GetUnfinishedOrdersParams
+	if err := c.ShouldBindJSON(&orderParams); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	orders, err := api.RestApi.GetUnfinishOrders(goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	result := make([]string, 0)
+	for _, order := range orders {
+		orderId := strconv.Itoa(order.OrderID)
+		_, err := api.RestApi.CancelOrder(orderId, order.Currency)
+		if err == nil {
+			result = append(result, orderId)
+			time.Sleep(120 * time.Millisecond)
+		}
+	}
+	c.JSON(200, gin.H{"data": result})
 }

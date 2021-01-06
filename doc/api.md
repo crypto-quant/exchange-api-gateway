@@ -163,3 +163,15 @@ curl -X POST http://localhost:8080/get_unfinished_order  -H 'content-type: appli
   ]
 }
 ```
+
+### Cancel all orders
+
+```shell
+curl -X POST http://localhost:8080/cancel_all_orders  -H 'content-type: application/json' -d '{ "pair": "BTC-USDT" }'
+```
+
+```json
+{
+  "data": ["4180071516", "4180079391"]
+}
+```
