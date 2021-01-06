@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"math"
+
 	"github.com/crypto-quant/exchange-api-gateway/api"
+	"github.com/crypto-quant/exchange-api-gateway/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/nntaoli-project/goex"
 )
@@ -81,10 +84,34 @@ func CancelOrder(c *gin.Context) {
 		return
 	}
 
-	order, err := api.RestApi.CancelOrder(orderParams.OrderId, goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	result, err := api.RestApi.CancelOrder(orderParams.OrderId, goex.NewCurrencyPair3(orderParams.Pair, "-"))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(200, gin.H{"data": result})
+}
+
+type GetOrderParams struct {
+	OrderId string `json:"order_id" binding:"required"`
+	Pair    string `json:"pair" binding:"required"`
+}
+
+func GetOrder(c *gin.Context) {
+	var orderParams GetOrderParams
+	if err := c.ShouldBindJSON(&orderParams); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	order, err := api.RestApi.GetOneOrder(orderParams.OrderId, goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	if math.IsNaN(order.AvgPrice) {
+		order.AvgPrice = 0
+	}
+	logger.GetLogger().Info(order.AvgPrice)
 	c.JSON(200, gin.H{"data": order})
 }

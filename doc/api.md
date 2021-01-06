@@ -55,3 +55,42 @@ curl -X POST http://localhost:8080/cancel_order  -H 'content-type: application/j
   "data": true
 }
 ```
+
+### get order
+
+```shell
+curl -X POST http://localhost:8080/get_order  -H 'content-type: application/json' -d '{ "order_id": "4180096286", "pair": "BTC-USDT" }'
+```
+
+```json
+{
+  "data": {
+    "Price": 50000,
+    "Amount": 0.01,
+    "AvgPrice": 0,
+    "DealAmount": 0,
+    "Fee": 0,
+    "Cid": "CUQgF5VBGUTjzgDt8LlmVG",
+    "OrderID2": "4.180096286e+09",
+    "OrderID": 4180096286,
+    "Status": 3,
+    "Currency": {
+      "CurrencyA": {
+        "Symbol": "BTC",
+        "Desc": "https://bitcoin.org/"
+      },
+      "CurrencyB": {
+        "Symbol": "USDT",
+        "Desc": ""
+      },
+      "AmountTickSize": 0,
+      "PriceTickSize": 0
+    },
+    "Side": 2,
+    "Type": "",
+    "OrderType": 0,
+    "OrderTime": 1609947571469,
+    "FinishedTime": 1609948546316
+  }
+}
+```
