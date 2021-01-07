@@ -175,3 +175,11 @@ curl -X POST http://localhost:8080/cancel_all_orders  -H 'content-type: applicat
   "data": ["4180071516", "4180079391"]
 }
 ```
+
+### Get trading pairs
+
+```shell
+curl http://localhost:8080/get_trading_pairs
+```
+
+check doc/trading_pairs
