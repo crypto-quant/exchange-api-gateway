@@ -39,5 +39,6 @@ func main() {
 	r.POST("/cancel_all_orders", handler.CancelAllOrders)
 	r.POST("/get_order", handler.GetOrder)
 	r.POST("/get_unfinished_order", handler.GetUnfinishedOrders)
+	r.GET("/get_trading_pairs", handler.GetTradingPairs)
 	r.Run("127.0.0.1:8080")
 }
