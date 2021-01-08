@@ -25,3 +25,24 @@ func GetTicker(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{"data": ticker})
 }
+
+type GetDepthParams struct {
+	Pair string `json:"pair" binding:"required"`
+	Size int    `json:"size" binding:"required"`
+}
+
+// curl -X GET http://127.0.0.1:8080/get_depth -H 'content-type: application/json' -d '{ "pair": "BTC-USDT", "size": 100 }'
+func GetDepth(c *gin.Context) {
+	var quoteParams GetDepthParams
+	if err := c.ShouldBindJSON(&quoteParams); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	depth, err := api.RestApi.GetDepth(quoteParams.Size, goex.NewCurrencyPair3(quoteParams.Pair, "-"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"data": depth})
+}

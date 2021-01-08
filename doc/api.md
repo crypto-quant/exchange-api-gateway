@@ -215,3 +215,73 @@ curl -X GET http://127.0.0.1:8080/get_ticker -H 'content-type: application/json'
   }
 }
 ```
+
+### Get depth
+
+```shell
+curl -X GET http://127.0.0.1:8080/get_depth -H 'content-type: application/json' -d '{ "pair": "BTC-USDT", "size": 100 }'
+```
+
+```json
+{
+  "data": {
+    "Pair": {
+      "CurrencyA": {
+        "Symbol": "BTC",
+        "Desc": "https://bitcoin.org/"
+      },
+      "CurrencyB": {
+        "Symbol": "USDT",
+        "Desc": ""
+      },
+      "AmountTickSize": 0,
+      "PriceTickSize": 0
+    },
+    "UTime": "2021-01-08T18:19:26.113863+08:00",
+    "AskList": [
+      {
+        "Price": 39664.99,
+        "Amount": 0.210001
+      },
+      {
+        "Price": 39664.87,
+        "Amount": 0.030253
+      },
+      {
+        "Price": 39662.55,
+        "Amount": 0.031497
+      },
+      {
+        "Price": 39662.54,
+        "Amount": 0.006615
+      },
+      {
+        "Price": 39661.59,
+        "Amount": 0.33849
+      }
+    ],
+    "BidList": [
+      {
+        "Price": 39661.58,
+        "Amount": 0.741277
+      },
+      {
+        "Price": 39660.31,
+        "Amount": 0.336257
+      },
+      {
+        "Price": 39660.3,
+        "Amount": 1.997482
+      },
+      {
+        "Price": 39660.17,
+        "Amount": 0.487192
+      },
+      {
+        "Price": 39658.88,
+        "Amount": 0.048207
+      }
+    ]
+  }
+}
+```
