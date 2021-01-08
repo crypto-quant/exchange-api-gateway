@@ -183,3 +183,35 @@ curl http://localhost:8080/get_trading_pairs
 ```
 
 check doc/trading_pairs
+
+### Get ticker
+
+```shell
+curl -X GET http://127.0.0.1:8080/get_ticker -H 'content-type: application/json' -d '{ "pair": "BTC-USDT" }'
+```
+
+```json
+{
+  "data": {
+    "omitempty": {
+      "CurrencyA": {
+        "Symbol": "BTC",
+        "Desc": "https://bitcoin.org/"
+      },
+      "CurrencyB": {
+        "Symbol": "USDT",
+        "Desc": ""
+      },
+      "AmountTickSize": 0,
+      "PriceTickSize": 0
+    },
+    "last": "38884.02",
+    "buy": "38884.02",
+    "sell": "38884.03",
+    "high": "40365",
+    "low": "36500",
+    "vol": "135714.770006",
+    "date": 1610099152
+  }
+}
+```
