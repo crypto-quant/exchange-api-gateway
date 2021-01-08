@@ -32,16 +32,17 @@ func main() {
 		c.Data(200, "text/plain", []byte("pong"))
 	})
 
-	r.GET("/balance", handler.GetBalance)
+	r.POST("/balance", handler.GetBalance)
 	r.POST("/limit_order", handler.LimitOrder)
 	r.POST("/market_order", handler.MarketOrder)
 	r.POST("/cancel_order", handler.CancelOrder)
 	r.POST("/cancel_all_orders", handler.CancelAllOrders)
 	r.POST("/get_order", handler.GetOrder)
+	r.POST("/get_order_history", handler.GetOrderHistory)
 	r.POST("/get_unfinished_order", handler.GetUnfinishedOrders)
-	r.GET("/get_trading_pairs", handler.GetTradingPairs)
-	r.GET("/get_ticker", handler.GetTicker)
-	r.GET("/get_depth", handler.GetDepth)
+	r.POST("/get_trading_pairs", handler.GetTradingPairs)
+	r.POST("/get_ticker", handler.GetTicker)
+	r.POST("/get_depth", handler.GetDepth)
 
 	r.Run("127.0.0.1:8080")
 }

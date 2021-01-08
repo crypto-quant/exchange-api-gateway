@@ -163,3 +163,24 @@ func CancelAllOrders(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{"data": result})
 }
+
+func GetOrderHistory(c *gin.Context) {
+	var orderParams GetUnfinishedOrdersParams
+	if err := c.ShouldBindJSON(&orderParams); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	orders, err := api.RestApi.GetOrderHistorys(goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	for index, order := range orders {
+		if math.IsNaN(order.AvgPrice) {
+			orders[index].AvgPrice = 0
+		}
+	}
+
+	c.JSON(200, gin.H{"data": orders})
+}

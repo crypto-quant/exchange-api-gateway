@@ -1,3 +1,18 @@
+### api index
+
+[GIN-debug] GET /ping --> main.main.func1 (3 handlers)
+[GIN-debug] POST /balance --> github.com/crypto-quant/exchange-api-gateway/handler.GetBalance (3 handlers)
+[GIN-debug] POST /limit_order --> github.com/crypto-quant/exchange-api-gateway/handler.LimitOrder (3 handlers)
+[GIN-debug] POST /market_order --> github.com/crypto-quant/exchange-api-gateway/handler.MarketOrder (3 handlers)
+[GIN-debug] POST /cancel_order --> github.com/crypto-quant/exchange-api-gateway/handler.CancelOrder (3 handlers)
+[GIN-debug] POST /cancel_all_orders --> github.com/crypto-quant/exchange-api-gateway/handler.CancelAllOrders (3 handlers)
+[GIN-debug] POST /get_order --> github.com/crypto-quant/exchange-api-gateway/handler.GetOrder (3 handlers)
+[GIN-debug] POST /get_order_history --> github.com/crypto-quant/exchange-api-gateway/handler.GetOrderHistory (3 handlers)
+[GIN-debug] POST /get_unfinished_order --> github.com/crypto-quant/exchange-api-gateway/handler.GetUnfinishedOrders (3 handlers)
+[GIN-debug] POST /get_trading_pairs --> github.com/crypto-quant/exchange-api-gateway/handler.GetTradingPairs (3 handlers)
+[GIN-debug] POST /get_ticker --> github.com/crypto-quant/exchange-api-gateway/handler.GetTicker (3 handlers)
+[GIN-debug] POST /get_depth --> github.com/crypto-quant/exchange-api-gateway/handler.GetDepth (3 handlers)
+
 ## limit order
 
 ```shell
@@ -187,7 +202,7 @@ check doc/trading_pairs
 ### Get ticker
 
 ```shell
-curl -X GET http://127.0.0.1:8080/get_ticker -H 'content-type: application/json' -d '{ "pair": "BTC-USDT" }'
+curl -X POST http://127.0.0.1:8080/get_ticker -H 'content-type: application/json' -d '{ "pair": "BTC-USDT" }'
 ```
 
 ```json
@@ -219,7 +234,7 @@ curl -X GET http://127.0.0.1:8080/get_ticker -H 'content-type: application/json'
 ### Get depth
 
 ```shell
-curl -X GET http://127.0.0.1:8080/get_depth -H 'content-type: application/json' -d '{ "pair": "BTC-USDT", "size": 100 }'
+curl -X POST http://127.0.0.1:8080/get_depth -H 'content-type: application/json' -d '{ "pair": "BTC-USDT", "size": 100 }'
 ```
 
 ```json
