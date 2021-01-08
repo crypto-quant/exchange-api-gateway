@@ -1,17 +1,21 @@
 ### api index
 
-[GIN-debug] GET /ping --> main.main.func1 (3 handlers)
-[GIN-debug] POST /balance --> github.com/crypto-quant/exchange-api-gateway/handler.GetBalance (3 handlers)
-[GIN-debug] POST /limit_order --> github.com/crypto-quant/exchange-api-gateway/handler.LimitOrder (3 handlers)
-[GIN-debug] POST /market_order --> github.com/crypto-quant/exchange-api-gateway/handler.MarketOrder (3 handlers)
-[GIN-debug] POST /cancel_order --> github.com/crypto-quant/exchange-api-gateway/handler.CancelOrder (3 handlers)
-[GIN-debug] POST /cancel_all_orders --> github.com/crypto-quant/exchange-api-gateway/handler.CancelAllOrders (3 handlers)
-[GIN-debug] POST /get_order --> github.com/crypto-quant/exchange-api-gateway/handler.GetOrder (3 handlers)
-[GIN-debug] POST /get_order_history --> github.com/crypto-quant/exchange-api-gateway/handler.GetOrderHistory (3 handlers)
-[GIN-debug] POST /get_unfinished_order --> github.com/crypto-quant/exchange-api-gateway/handler.GetUnfinishedOrders (3 handlers)
-[GIN-debug] POST /get_trading_pairs --> github.com/crypto-quant/exchange-api-gateway/handler.GetTradingPairs (3 handlers)
-[GIN-debug] POST /get_ticker --> github.com/crypto-quant/exchange-api-gateway/handler.GetTicker (3 handlers)
-[GIN-debug] POST /get_depth --> github.com/crypto-quant/exchange-api-gateway/handler.GetDepth (3 handlers)
+GET /ping
+POST /balance
+POST /limit_order
+POST /market_order
+POST /cancel_order
+POST /cancel_all_orders
+POST /get_order
+POST /get_order_history
+POST /get_unfinished_order
+POST /get_trading_pairs
+POST /get_ticker
+POST /get_depth
+POST /get_klines
+POST /subscribe_ticker
+POST /subscribe_depth
+POST /subscribe_trade
 
 ## limit order
 
