@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/crypto-quant/exchange-api-gateway/config"
+	"github.com/crypto-quant/exchange-api-gateway/zmq"
 	"github.com/nntaoli-project/goex"
 	"github.com/nntaoli-project/goex/builder"
 )
@@ -43,14 +44,14 @@ func InitApi(config *config.PlatformConfig) {
 
 func InitWsApiCallback() {
 	WsApi.TickerCallback(func(ticker *goex.Ticker) {
-		log.Printf("ticker: %+v\n", ticker)
+		zmq.PubJson("ticker", ticker)
 	})
 
 	WsApi.DepthCallback(func(depth *goex.Depth) {
-		log.Printf("depth: %+v\n", depth)
+		zmq.PubJson("depth", depth)
 	})
 
 	WsApi.TradeCallback(func(trade *goex.Trade) {
-		log.Printf("trade: %+v\n", trade)
+		zmq.PubJson("trade", trade)
 	})
 }

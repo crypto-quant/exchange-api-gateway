@@ -5,6 +5,7 @@ import (
 	"github.com/crypto-quant/exchange-api-gateway/config"
 	"github.com/crypto-quant/exchange-api-gateway/handler"
 	"github.com/crypto-quant/exchange-api-gateway/logger"
+	"github.com/crypto-quant/exchange-api-gateway/zmq"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	ginlogrus "github.com/toorop/gin-logrus"
@@ -22,6 +23,7 @@ func init() {
 	platformConfig = config.ParseConfigFile("config.yml")
 	api.InitApi(platformConfig)
 
+	go zmq.InitPublisher("tcp://*:5563")
 }
 
 func main() {

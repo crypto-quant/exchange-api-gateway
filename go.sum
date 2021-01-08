@@ -46,6 +46,8 @@ github.com/nntaoli-project/goex v1.2.5 h1:zf20Zf8jfaZLxtIuQ0a+YmuJD9orQrLgsds/60
 github.com/nntaoli-project/goex v1.2.5/go.mod h1:sCb1e95fe/WBvGA8JVQc3r2XTFawUZro39mb9/qY3To=
 github.com/nubo/jwt v0.0.0-20150918093313-da5b79c3bbaf h1:mP7zQzhCrNQgSdCpxFxyZV/JMHbz4LJsyppAZMQVrI0=
 github.com/nubo/jwt v0.0.0-20150918093313-da5b79c3bbaf/go.mod h1:LuR7jHS+7SJ6EywD7zZiO6h0vwTBSevFk5wunVt3gf4=
+github.com/pebbe/zmq4 v1.2.2 h1:RZ5Ogp0D5S6u+tSxopnI3afAf0ifWbvQOAw9HxXvZP4=
+github.com/pebbe/zmq4 v1.2.2/go.mod h1:7N4y5R18zBiu3l0vajMUWQgZyjv464prE8RCyBcmnZM=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
