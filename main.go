@@ -43,6 +43,7 @@ func main() {
 	r.POST("/get_trading_pairs", handler.GetTradingPairs)
 	r.POST("/get_ticker", handler.GetTicker)
 	r.POST("/get_depth", handler.GetDepth)
+	r.POST("/get_klines", handler.GetKLines)
 
 	r.Run("127.0.0.1:8080")
 }

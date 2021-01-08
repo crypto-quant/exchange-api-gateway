@@ -300,3 +300,97 @@ curl -X POST http://127.0.0.1:8080/get_depth -H 'content-type: application/json'
   }
 }
 ```
+
+### Get klines
+
+```shell
+curl -X POST http://127.0.0.1:8080/get_klines -H 'content-type: application/json' -d '{ "pair": "BTC-USDT", "size": 2, "period": 13, "start_time": 1577887978 }'
+```
+
+```json
+{
+  "data": [
+    {
+      "Pair": {
+        "CurrencyA": {
+          "Symbol": "BTC",
+          "Desc": "https://bitcoin.org/"
+        },
+        "CurrencyB": {
+          "Symbol": "USDT",
+          "Desc": ""
+        },
+        "AmountTickSize": 0,
+        "PriceTickSize": 0
+      },
+      "Timestamp": 1502928000,
+      "Open": 4261.48,
+      "Close": 4427.3,
+      "High": 4485.39,
+      "Low": 4261.32,
+      "Vol": 145.708747
+    },
+    {
+      "Pair": {
+        "CurrencyA": {
+          "Symbol": "BTC",
+          "Desc": "https://bitcoin.org/"
+        },
+        "CurrencyB": {
+          "Symbol": "USDT",
+          "Desc": ""
+        },
+        "AmountTickSize": 0,
+        "PriceTickSize": 0
+      },
+      "Timestamp": 1502971200,
+      "Open": 4436.06,
+      "Close": 4285.08,
+      "High": 4485.39,
+      "Low": 4200.74,
+      "Vol": 649.44163
+    }
+  ]
+}
+```
+
+```go
+// k线周期
+const (
+	KLINE_PERIOD_1MIN = 1 + iota
+	KLINE_PERIOD_3MIN
+	KLINE_PERIOD_5MIN
+	KLINE_PERIOD_15MIN
+	KLINE_PERIOD_30MIN
+	KLINE_PERIOD_60MIN
+	KLINE_PERIOD_1H
+	KLINE_PERIOD_2H
+	KLINE_PERIOD_3H
+	KLINE_PERIOD_4H
+	KLINE_PERIOD_6H
+	KLINE_PERIOD_8H
+	KLINE_PERIOD_12H
+	KLINE_PERIOD_1DAY = 13
+	KLINE_PERIOD_3DAY
+	KLINE_PERIOD_1WEEK
+	KLINE_PERIOD_1MONTH
+	KLINE_PERIOD_1YEAR
+)
+
+// binanace支持的周期类型
+1m
+3m
+5m
+15m
+30m
+1h
+2h
+4h
+6h
+8h
+12h
+1d
+3d
+1w
+1M
+```
