@@ -2,8 +2,8 @@ package handler
 
 import (
 	"github.com/crypto-quant/exchange-api-gateway/api"
+	"github.com/crypto-quant/exchange-api-gateway/common"
 	"github.com/gin-gonic/gin"
-	"github.com/nntaoli-project/goex"
 )
 
 type SubscribeParams struct {
@@ -18,7 +18,7 @@ func SubscribeTicker(c *gin.Context) {
 		return
 	}
 
-	err := api.WsApi.SubscribeTicker(goex.NewCurrencyPair3(params.Pair, "-"))
+	err := api.WsApi.SubscribeTicker(common.ParseTradingPair(params.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -34,7 +34,7 @@ func SubscribeDepth(c *gin.Context) {
 		return
 	}
 
-	err := api.WsApi.SubscribeDepth(goex.NewCurrencyPair3(params.Pair, "-"))
+	err := api.WsApi.SubscribeDepth(common.ParseTradingPair(params.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -50,7 +50,7 @@ func SubscribeTrade(c *gin.Context) {
 		return
 	}
 
-	err := api.WsApi.SubscribeTrade(goex.NewCurrencyPair3(params.Pair, "-"))
+	err := api.WsApi.SubscribeTrade(common.ParseTradingPair(params.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

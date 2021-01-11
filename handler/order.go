@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/crypto-quant/exchange-api-gateway/api"
+	"github.com/crypto-quant/exchange-api-gateway/common"
 	"github.com/gin-gonic/gin"
 	"github.com/nntaoli-project/goex"
 )
@@ -27,14 +28,14 @@ func LimitOrder(c *gin.Context) {
 	}
 
 	if orderParams.Side == goex.BUY {
-		order, err := api.RestApi.LimitBuy(orderParams.Amount, orderParams.Price, goex.NewCurrencyPair3(orderParams.Pair, "-"))
+		order, err := api.RestApi.LimitBuy(orderParams.Amount, orderParams.Price, common.ParseTradingPair(orderParams.Pair))
 		if err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
 		c.JSON(200, gin.H{"data": order})
 	} else {
-		order, err := api.RestApi.LimitSell(orderParams.Amount, orderParams.Price, goex.NewCurrencyPair3(orderParams.Pair, "-"))
+		order, err := api.RestApi.LimitSell(orderParams.Amount, orderParams.Price, common.ParseTradingPair(orderParams.Pair))
 		if err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
@@ -57,14 +58,14 @@ func MarketOrder(c *gin.Context) {
 	}
 
 	if orderParams.Side == goex.BUY {
-		order, err := api.RestApi.MarketBuy(orderParams.Amount, "0", goex.NewCurrencyPair3(orderParams.Pair, "-"))
+		order, err := api.RestApi.MarketBuy(orderParams.Amount, "0", common.ParseTradingPair(orderParams.Pair))
 		if err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
 		c.JSON(200, gin.H{"data": order})
 	} else {
-		order, err := api.RestApi.MarketSell(orderParams.Amount, "0", goex.NewCurrencyPair3(orderParams.Pair, "-"))
+		order, err := api.RestApi.MarketSell(orderParams.Amount, "0", common.ParseTradingPair(orderParams.Pair))
 		if err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
@@ -85,7 +86,7 @@ func CancelOrder(c *gin.Context) {
 		return
 	}
 
-	result, err := api.RestApi.CancelOrder(orderParams.OrderId, goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	result, err := api.RestApi.CancelOrder(orderParams.OrderId, common.ParseTradingPair(orderParams.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -105,7 +106,7 @@ func GetOrder(c *gin.Context) {
 		return
 	}
 
-	order, err := api.RestApi.GetOneOrder(orderParams.OrderId, goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	order, err := api.RestApi.GetOneOrder(orderParams.OrderId, common.ParseTradingPair(orderParams.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -127,7 +128,7 @@ func GetUnfinishedOrders(c *gin.Context) {
 		return
 	}
 
-	orders, err := api.RestApi.GetUnfinishOrders(goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	orders, err := api.RestApi.GetUnfinishOrders(common.ParseTradingPair(orderParams.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -146,7 +147,7 @@ func CancelAllOrders(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	orders, err := api.RestApi.GetUnfinishOrders(goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	orders, err := api.RestApi.GetUnfinishOrders(common.ParseTradingPair(orderParams.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -170,7 +171,7 @@ func GetOrderHistory(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	orders, err := api.RestApi.GetOrderHistorys(goex.NewCurrencyPair3(orderParams.Pair, "-"))
+	orders, err := api.RestApi.GetOrderHistorys(common.ParseTradingPair(orderParams.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

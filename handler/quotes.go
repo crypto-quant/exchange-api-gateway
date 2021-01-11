@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/crypto-quant/exchange-api-gateway/api"
+	"github.com/crypto-quant/exchange-api-gateway/common"
 	"github.com/gin-gonic/gin"
 	"github.com/nntaoli-project/goex"
 )
@@ -18,7 +19,7 @@ func GetTicker(c *gin.Context) {
 		return
 	}
 
-	ticker, err := api.RestApi.GetTicker(goex.NewCurrencyPair3(quoteParams.Pair, "-"))
+	ticker, err := api.RestApi.GetTicker(common.ParseTradingPair(quoteParams.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -39,7 +40,7 @@ func GetDepth(c *gin.Context) {
 		return
 	}
 
-	depth, err := api.RestApi.GetDepth(quoteParams.Size, goex.NewCurrencyPair3(quoteParams.Pair, "-"))
+	depth, err := api.RestApi.GetDepth(quoteParams.Size, common.ParseTradingPair(quoteParams.Pair))
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -72,7 +73,7 @@ func GetKLines(c *gin.Context) {
 	if quoteParams.EndTime > 0 {
 		optionalParameter.Optional("endTime", quoteParams.EndTime)
 	}
-	bars, err := api.RestApi.GetKlineRecords(goex.NewCurrencyPair3(quoteParams.Pair, "-"), quoteParams.Period, quoteParams.Size, optionalParameter)
+	bars, err := api.RestApi.GetKlineRecords(common.ParseTradingPair(quoteParams.Pair), quoteParams.Period, quoteParams.Size, optionalParameter)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
