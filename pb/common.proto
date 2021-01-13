@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+enum Side {
+  UNKNOWN = 0;
+  BUY = 1;
+  SELL = 2;
+  BUY_MARKET = 3;
+  SELL_MARKET = 4;
+}

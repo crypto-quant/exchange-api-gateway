@@ -1,16 +1,10 @@
 syntax = "proto3";
 
+import "common.proto";
+
 option go_package = "out/pb_order";
 
 message Order {
-  enum Side {
-    UNKNOWN = 0;
-    BUY = 1;
-    SELL = 2;
-    BUY_MARKET = 3;
-    SELL_MARKET = 4;
-  }
-
   enum OrderType {
     DEFAULT = 0;
     MAKER = 1;
@@ -30,6 +24,6 @@ message Order {
   Side side = 10;
   string type = 11;
   OrderType orderType = 12;
-  int64 orderTime = 13;
+  int32 orderTime = 13;
   int64 finishedTime = 14;
 }
