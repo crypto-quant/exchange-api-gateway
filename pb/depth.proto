@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "out/pb_depth";
+
+message Depth {
+  message PriceLevel {
+    double price = 1;
+    double amount = 2;
+  }
+
+  string pair = 1;
+  double last = 2;
+  int64 date =3;
+  repeated PriceLevel asks = 4;
+  repeated PriceLevel bids = 5;
+}

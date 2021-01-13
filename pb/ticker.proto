@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "out/pb_ticker";
+
+message Ticker {
+  string pair = 1;
+  double last = 2;
+  double buy  = 3;
+  double sell = 4;
+  double high = 5;
+  double low  = 6;
+  double vol  = 7;
+  int64 date  = 8;
+}
