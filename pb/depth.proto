@@ -9,8 +9,7 @@ message Depth {
   }
 
   string pair = 1;
-  double last = 2;
-  int64 date =3;
-  repeated PriceLevel asks = 4;
-  repeated PriceLevel bids = 5;
+  int64 date =2;
+  repeated PriceLevel asks = 3;
+  repeated PriceLevel bids = 4;
 }

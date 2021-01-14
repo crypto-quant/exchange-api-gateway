@@ -3,9 +3,12 @@
 package main
 
 import (
-	zmq "github.com/pebbe/zmq4"
-
 	"fmt"
+
+	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_depth"
+	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_ticker"
+	zmq "github.com/pebbe/zmq4"
+	"google.golang.org/protobuf/proto"
 )
 
 func main() {
@@ -19,9 +22,26 @@ func main() {
 
 	for {
 		//  Read envelope with address
-		address, _ := subscriber.Recv(0)
+		channel, _ := subscriber.Recv(0)
 		//  Read message contents
 		contents, _ := subscriber.Recv(0)
-		fmt.Printf("[%s] %s\n", address, contents)
+		if channel == "ticker" {
+			ticker := &pb_ticker.Ticker{}
+			if err := proto.Unmarshal([]byte(contents), ticker); err != nil {
+				fmt.Printf("Failed to parse ticker: %v\n", err)
+			} else {
+				fmt.Println(ticker)
+			}
+		} else if channel == "depth" {
+			depth := &pb_depth.Depth{}
+			if err := proto.Unmarshal([]byte(contents), depth); err != nil {
+				fmt.Printf("Failed to parse depth: %v\n", err)
+			} else {
+				fmt.Println(depth)
+			}
+		} else {
+			fmt.Println(channel)
+		}
+
 	}
 }

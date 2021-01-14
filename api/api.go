@@ -44,14 +44,19 @@ func InitApi(config *config.PlatformConfig) {
 
 func InitWsApiCallback() {
 	WsApi.TickerCallback(func(ticker *goex.Ticker) {
-		zmq.PubJson("ticker", ticker)
+		// log.Printf("ticker: %+v\n", ticker)
+		// zmq.PubJson("ticker", ticker)
+		zmq.PubPBTicker(ticker)
 	})
 
 	WsApi.DepthCallback(func(depth *goex.Depth) {
-		zmq.PubJson("depth", depth)
+		// log.Printf("depth: %+v\n", depth)
+		// zmq.PubJson("depth", depth)
+		zmq.PubPBDepth(depth)
 	})
 
 	WsApi.TradeCallback(func(trade *goex.Trade) {
+		log.Printf("trade: %+v\n", trade)
 		zmq.PubJson("trade", trade)
 	})
 }
