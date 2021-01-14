@@ -41,7 +41,7 @@ func main() {
 	r.POST("/cancel_all_orders", handler.CancelAllOrders)
 	r.POST("/get_order", handler.GetOrder)
 	r.POST("/get_order_history", handler.GetOrderHistory)
-	r.POST("/get_unfinished_order", handler.GetUnfinishedOrders)
+	r.POST("/get_unfinished_orders", handler.GetUnfinishedOrders)
 	r.POST("/get_trading_pairs", handler.GetTradingPairs)
 	r.POST("/get_ticker", handler.GetTicker)
 	r.POST("/get_depth", handler.GetDepth)
@@ -49,6 +49,7 @@ func main() {
 	r.POST("/subscribe_ticker", handler.SubscribeTicker)
 	r.POST("/subscribe_depth", handler.SubscribeDepth)
 	r.POST("/subscribe_trade", handler.SubscribeTrade)
+	r.POST("/subscribe_order", handler.SubscribeTrade)
 
 	r.Run("127.0.0.1:8080")
 }
