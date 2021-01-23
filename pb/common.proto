@@ -1,9 +1,21 @@
 syntax = "proto3";
 
+option go_package = "github.com/crypto-quant/exchange-api-gateway/pb/out/pb_common";
+
 enum Side {
   UNKNOWN = 0;
   BUY = 1;
   SELL = 2;
   BUY_MARKET = 3;
   SELL_MARKET = 4;
+}
+
+enum OrderStatus {
+  ORDER_UNFINISH = 0;
+	ORDER_PART_FINISH = 1;
+	ORDER_FINISH = 2;
+	ORDER_CANCEL = 3;
+	ORDER_REJECT = 4;
+	ORDER_CANCEL_ING = 5;
+  ORDER_FAIL = 6;
 }

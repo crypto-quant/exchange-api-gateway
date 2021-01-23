@@ -5,13 +5,6 @@ import "common.proto";
 option go_package = "out/pb_order";
 
 message Order {
-  enum OrderType {
-    DEFAULT = 0;
-    MAKER = 1;
-    FOK = 2;
-    IOC = 3;
-  }
-
   string pair = 1;
   double price = 2;
   double amount  = 3;
@@ -19,11 +12,13 @@ message Order {
   double dealAmount = 5;
   double fee  = 6;
   string cid  = 7; // client order id
-  string orderId  = 8;
-  string status = 9; // string{"UNFINISH", "PART_FINISH", "FINISH", "CANCEL", "REJECT", "CANCEL_ING", "FAIL"}
+  int64 orderId  = 8;
+  OrderStatus status = 9; // string{"UNFINISH", "PART_FINISH", "FINISH", "CANCEL", "REJECT", "CANCEL_ING", "FAIL"}
   Side side = 10;
-  string type = 11;
-  OrderType orderType = 12;
-  int32 orderTime = 13;
+  string timeInForce = 11; // GTC, IOC, FOK
+  string orderType = 12;
+  int64 orderTime = 13;
   int64 finishedTime = 14;
+  int64 tradeId = 15;
+  string cancelledClientOrderId = 16;
 }

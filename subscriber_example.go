@@ -7,6 +7,7 @@ import (
 
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_depth"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_ticker"
+	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_order"	
 	zmq "github.com/pebbe/zmq4"
 	"google.golang.org/protobuf/proto"
 )
@@ -19,6 +20,7 @@ func main() {
 	subscriber.SetSubscribe("ticker")
 	subscriber.SetSubscribe("depth")
 	subscriber.SetSubscribe("trade")
+	subscriber.SetSubscribe("order")	
 
 	for {
 		//  Read envelope with address
@@ -39,6 +41,13 @@ func main() {
 			} else {
 				fmt.Println(depth)
 			}
+		} else if channel == "order" {
+			order := &pb_order.Order{}
+			if err := proto.Unmarshal([]byte(contents), order); err != nil {
+				fmt.Printf("Failed to parse order: %v\n", err)
+			} else {
+				fmt.Printf("%+v\n", order)
+			}			
 		} else {
 			fmt.Println(channel)
 		}

@@ -6,13 +6,15 @@ import (
 	"github.com/crypto-quant/exchange-api-gateway/config"
 	"github.com/crypto-quant/exchange-api-gateway/zmq"
 	"github.com/nntaoli-project/goex"
+	"github.com/nntaoli-project/goex/binance"
 	"github.com/nntaoli-project/goex/builder"
 )
 
 var (
-	RestApi   goex.API
-	WsApi     goex.SpotWsApi
-	WalletApi goex.WalletApi
+	RestApi              goex.API
+	WsApi                goex.SpotWsApi
+	WalletApi            goex.WalletApi
+	BinanceUserDataWsApi *binance.UserDataWs
 )
 
 func InitApi(config *config.PlatformConfig) {
@@ -31,15 +33,21 @@ func InitApi(config *config.PlatformConfig) {
 		log.Fatalf("build spot ws api failed: %v", err.Error())
 	}
 
-	InitWsApiCallback()
-
-	log.Printf("[%v] exchange spot ws api created", RestApi.GetExchangeName())
-
 	WalletApi, err = builder.BuildWallet(goex.BINANCE)
 	if err != nil {
 		log.Fatalf("build wallet api failed: %v", err.Error())
 	}
 	log.Printf("[%v] exchange wallet api created", RestApi.GetExchangeName())
+
+	binanceRestApi, ok := RestApi.(*binance.Binance)
+	if ok {
+		BinanceUserDataWsApi = binance.NewUserDataWs(binanceRestApi)
+	}
+
+	InitWsApiCallback()
+
+	log.Printf("[%v] exchange spot ws api created", RestApi.GetExchangeName())
+
 }
 
 func InitWsApiCallback() {
@@ -56,7 +64,30 @@ func InitWsApiCallback() {
 	})
 
 	WsApi.TradeCallback(func(trade *goex.Trade) {
-		log.Printf("trade: %+v\n", trade)
-		zmq.PubJson("trade", trade)
+		// log.Printf("trade: %+v\n", trade)
+		// zmq.PubJson("trade", trade)
 	})
+
+	if BinanceUserDataWsApi != nil {
+		BinanceUserDataWsApi.AccountInfoCallback(func(accountInfo *binance.AccountInfo) {
+			log.Printf("account info: %+v\n", accountInfo)
+		})
+
+		BinanceUserDataWsApi.AccountPositionCallback(func(accountPosition *binance.AccountPosition) {
+			log.Printf("account position: %+v\n", accountPosition)
+		})
+
+		BinanceUserDataWsApi.ListStatusCallback(func(listStatus *binance.ListStatus) {
+			log.Printf("list status : %+v\n", listStatus)
+		})
+
+		BinanceUserDataWsApi.BalanceUpdateCallback(func(balanceUpdate *binance.BalanceUpdate) {
+			log.Printf("balance update: %+v\n", balanceUpdate)
+		})
+
+		BinanceUserDataWsApi.OrderUpdateCallback(func(orderUpdate *binance.OrderUpdate) {
+			log.Printf("order update: %+v\n", orderUpdate)
+			zmq.PubPBOrderUpdate(orderUpdate)
+		})
+	}
 }

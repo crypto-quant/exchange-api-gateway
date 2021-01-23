@@ -7,8 +7,10 @@ import (
 	"github.com/crypto-quant/exchange-api-gateway/common"
 	. "github.com/crypto-quant/exchange-api-gateway/logger"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_depth"
+	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_order"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_ticker"
 	"github.com/nntaoli-project/goex"
+	"github.com/nntaoli-project/goex/binance"
 	zmq "github.com/pebbe/zmq4"
 	"google.golang.org/protobuf/proto"
 )
@@ -78,3 +80,50 @@ func PubPBDepth(depth *goex.Depth) {
 	}
 	Publisher.Send(string(pbData), 0)
 }
+
+func PubPBOrderUpdate(order *binance.OrderUpdate) {
+	Publisher.Send("order", zmq.SNDMORE)
+	t := &pb_order.Order{
+		Pair:                   common.AdaptSymbolToTradingPair(order.Data.Symbol),
+		Price:                  order.Data.Price,
+		Amount:                 order.Data.Quantity,
+		DealAmount:             order.Data.CumulativeFilledQuantity,
+		Side:                   common.AdaptTradeSide(order.Data.Side),
+		Status:                 common.AdaptOrderStatus(order.Data.OrderStatus),
+		Cid:                    order.Data.ClientOrderID,
+		OrderId:                order.Data.OrderID,
+		TimeInForce:            order.Data.TimeInForce,
+		OrderType:              order.Data.OrderType,
+		OrderTime:              order.Data.OrderCreationTime,
+		FinishedTime:           order.Data.TransactionTime,
+		TradeId:                order.Data.TradeID,
+		CancelledClientOrderId: order.Data.CancelledClientOrderID,
+	}
+	if t.Cid == "" {
+		t.Cid = t.CancelledClientOrderId
+	}
+	pbData, err := proto.Marshal(t)
+	if err != nil {
+		Logger.Error(err)
+	}
+	Publisher.Send(string(pbData), 0)
+}
+
+func PubPBAccountUpdate(account *binance.AccountInfo) {
+
+}
+
+//   string pair = 1;
+//   double price = 2;
+//   double amount  = 3;
+//   double avgPrice = 4;
+//   double dealAmount = 5;
+//   double fee  = 6;
+//   string cid  = 7; // client order id
+//   string orderId  = 8;
+//   string status = 9; // string{"UNFINISH", "PART_FINISH", "FINISH", "CANCEL", "REJECT", "CANCEL_ING", "FAIL"}
+//   Side side = 10;
+//   string type = 11;
+//   OrderType orderType = 12;
+//   int32 orderTime = 13;
+//   int64 finishedTime = 14;

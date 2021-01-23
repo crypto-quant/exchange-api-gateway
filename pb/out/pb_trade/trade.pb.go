@@ -7,7 +7,7 @@
 package pb_trade
 
 import (
-	_ "."
+	pb_common "github.com/crypto-quant/exchange-api-gateway/pb/out/pb_common"
 	proto "github.com/golang/protobuf/proto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -31,13 +31,13 @@ type Trade struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Pair    string  `protobuf:"bytes,1,opt,name=pair,proto3" json:"pair,omitempty"`
-	Tid     int64   `protobuf:"varint,2,opt,name=tid,proto3" json:"tid,omitempty"`
-	OrderId int64   `protobuf:"varint,3,opt,name=orderId,proto3" json:"orderId,omitempty"`
-	Side    _.Side  `protobuf:"varint,4,opt,name=side,proto3,enum=Side" json:"side,omitempty"`
-	Amount  float64 `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`
-	Price   float64 `protobuf:"fixed64,6,opt,name=price,proto3" json:"price,omitempty"`
-	Date    int64   `protobuf:"varint,7,opt,name=date,proto3" json:"date,omitempty"`
+	Pair    string         `protobuf:"bytes,1,opt,name=pair,proto3" json:"pair,omitempty"`
+	Tid     int64          `protobuf:"varint,2,opt,name=tid,proto3" json:"tid,omitempty"`
+	OrderId int64          `protobuf:"varint,3,opt,name=orderId,proto3" json:"orderId,omitempty"`
+	Side    pb_common.Side `protobuf:"varint,4,opt,name=side,proto3,enum=Side" json:"side,omitempty"`
+	Amount  float64        `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`
+	Price   float64        `protobuf:"fixed64,6,opt,name=price,proto3" json:"price,omitempty"`
+	Date    int64          `protobuf:"varint,7,opt,name=date,proto3" json:"date,omitempty"`
 }
 
 func (x *Trade) Reset() {
@@ -93,11 +93,11 @@ func (x *Trade) GetOrderId() int64 {
 	return 0
 }
 
-func (x *Trade) GetSide() _.Side {
+func (x *Trade) GetSide() pb_common.Side {
 	if x != nil {
 		return x.Side
 	}
-	return _.Side_UNKNOWN
+	return pb_common.Side_UNKNOWN
 }
 
 func (x *Trade) GetAmount() float64 {
@@ -154,8 +154,8 @@ func file_trade_proto_rawDescGZIP() []byte {
 
 var file_trade_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_trade_proto_goTypes = []interface{}{
-	(*Trade)(nil), // 0: Trade
-	(_.Side)(0),   // 1: Side
+	(*Trade)(nil),       // 0: Trade
+	(pb_common.Side)(0), // 1: Side
 }
 var file_trade_proto_depIdxs = []int32{
 	1, // 0: Trade.side:type_name -> Side

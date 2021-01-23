@@ -9,6 +9,7 @@ require (
 	github.com/nntaoli-project/goex v1.0.9-0.20210105065527-9112e683bb9e
 	github.com/pebbe/zmq4 v1.2.2
 	github.com/sirupsen/logrus v1.7.0
+	github.com/thrasher-corp/gocryptotrader v0.0.0-20210114225652-e611a7542db9 // indirect
 	github.com/toorop/gin-logrus v0.0.0-20200831135515-d2ee50d38dae
 	google.golang.org/protobuf v1.25.0
 	gopkg.in/yaml.v2 v2.4.0
