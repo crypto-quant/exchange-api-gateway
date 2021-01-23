@@ -48,8 +48,8 @@ func main() {
 	r.POST("/get_klines", handler.GetKLines)
 	r.POST("/subscribe_ticker", handler.SubscribeTicker)
 	r.POST("/subscribe_depth", handler.SubscribeDepth)
-	r.POST("/subscribe_trade", handler.SubscribeTrade)
-	r.POST("/subscribe_order", handler.SubscribeTrade)
+	// r.POST("/subscribe_account", handler.SubscribeAccount)
+	// r.POST("/subscribe_order", handler.SubscribeOrder)
 
 	r.Run("127.0.0.1:8080")
 }

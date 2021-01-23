@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_account"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_depth"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_order"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_ticker"
@@ -21,6 +22,7 @@ func main() {
 	subscriber.SetSubscribe("depth")
 	subscriber.SetSubscribe("trade")
 	subscriber.SetSubscribe("order")
+	subscriber.SetSubscribe("account")
 
 	for {
 		//  Read envelope with address
@@ -48,6 +50,13 @@ func main() {
 			} else {
 				fmt.Printf("status: %v\n", order.Status)
 				fmt.Printf("%+v\n", order)
+			}
+		} else if channel == "account" {
+			account := &pb_account.Account{}
+			if err := proto.Unmarshal([]byte(contents), account); err != nil {
+				fmt.Printf("Failed to parse account: %v\n", err)
+			} else {
+				fmt.Printf("%+v\n", account)
 			}
 		} else {
 			fmt.Println(channel)

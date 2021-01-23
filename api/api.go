@@ -75,6 +75,7 @@ func InitWsApiCallback() {
 
 		BinanceUserDataWsApi.AccountPositionCallback(func(accountPosition *binance.AccountPosition) {
 			log.Printf("account position: %+v\n", accountPosition)
+			zmq.PubPBAccountPosition(accountPosition)
 		})
 
 		BinanceUserDataWsApi.ListStatusCallback(func(listStatus *binance.ListStatus) {

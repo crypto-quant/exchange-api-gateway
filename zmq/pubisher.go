@@ -2,10 +2,10 @@ package zmq
 
 import (
 	"encoding/json"
-	"time"
 
 	"github.com/crypto-quant/exchange-api-gateway/common"
 	. "github.com/crypto-quant/exchange-api-gateway/logger"
+	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_account"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_depth"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_order"
 	"github.com/crypto-quant/exchange-api-gateway/pb/out/pb_ticker"
@@ -26,18 +26,15 @@ func InitPublisher(endpoint string) {
 }
 
 func PubJson(channel string, data interface{}) {
-	Publisher.Send(channel, zmq.SNDMORE)
-
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		Logger.Error(err)
 		return
 	}
-	Publisher.Send(string(jsonData), 0)
+	PubData(channel, jsonData)
 }
 
 func PubPBTicker(ticker *goex.Ticker) {
-	Publisher.Send("ticker", zmq.SNDMORE)
 	t := &pb_ticker.Ticker{
 		Pair: ticker.Pair.ToSymbol(common.Separater),
 		Last: ticker.Last,
@@ -52,14 +49,13 @@ func PubPBTicker(ticker *goex.Ticker) {
 	if err != nil {
 		Logger.Error(err)
 	}
-	Publisher.Send(string(pbData), 0)
+	PubData("ticker", pbData)
 }
 
 func PubPBDepth(depth *goex.Depth) {
-	Publisher.Send("depth", zmq.SNDMORE)
 	t := &pb_depth.Depth{
 		Pair: depth.Pair.ToSymbol(common.Separater),
-		Date: int64(time.Nanosecond) * depth.UTime.UnixNano() / int64(time.Millisecond),
+		Date: common.NsToMs(depth.UTime.UnixNano()),
 	}
 	t.Asks = make([]*pb_depth.Depth_PriceLevel, 0)
 	for _, ask := range depth.AskList {
@@ -78,11 +74,10 @@ func PubPBDepth(depth *goex.Depth) {
 	if err != nil {
 		Logger.Error(err)
 	}
-	Publisher.Send(string(pbData), 0)
+	PubData("depth", pbData)
 }
 
 func PubPBOrderUpdate(order *binance.OrderUpdate) {
-	Publisher.Send("order", zmq.SNDMORE)
 	t := &pb_order.Order{
 		Pair:         common.AdaptSymbolToTradingPair(order.Data.Symbol),
 		Price:        order.Data.Price,
@@ -94,8 +89,8 @@ func PubPBOrderUpdate(order *binance.OrderUpdate) {
 		OrderId:      order.Data.OrderID,
 		TimeInForce:  order.Data.TimeInForce,
 		OrderType:    order.Data.OrderType,
-		OrderTime:    order.Data.OrderCreationTime,
-		FinishedTime: order.Data.TransactionTime,
+		OrderTime:    common.NsToMs(order.Data.OrderCreationTime),
+		FinishedTime: common.NsToMs(order.Data.TransactionTime),
 		TradeId:      order.Data.TradeID,
 	}
 	if t.Cid == "" {
@@ -105,24 +100,31 @@ func PubPBOrderUpdate(order *binance.OrderUpdate) {
 	if err != nil {
 		Logger.Error(err)
 	}
-	Publisher.Send(string(pbData), 0)
+	PubData("order", pbData)
 }
 
-func PubPBAccountUpdate(account *binance.AccountInfo) {
+func PubPBAccountPosition(account *binance.AccountPosition) {
+	t := &pb_account.Account{
+		Date:      common.NsToMs(account.Data.EventTime),
+		EventType: account.Data.EventType,
+	}
 
+	t.Assets = make([]*pb_account.Account_Asset, 0)
+	for _, asset := range account.Data.Currencies {
+		t.Assets = append(t.Assets, &pb_account.Account_Asset{
+			Symbol:    asset.Asset,
+			Available: asset.Available,
+			Locked:    asset.Locked,
+		})
+	}
+	pbData, err := proto.Marshal(t)
+	if err != nil {
+		Logger.Error(err)
+	}
+	PubData("account", pbData)
 }
 
-//   string pair = 1;
-//   double price = 2;
-//   double amount  = 3;
-//   double avgPrice = 4;
-//   double dealAmount = 5;
-//   double fee  = 6;
-//   string cid  = 7; // client order id
-//   string orderId  = 8;
-//   string status = 9; // string{"UNFINISH", "PART_FINISH", "FINISH", "CANCEL", "REJECT", "CANCEL_ING", "FAIL"}
-//   Side side = 10;
-//   string type = 11;
-//   OrderType orderType = 12;
-//   int32 orderTime = 13;
-//   int64 finishedTime = 14;
+func PubData(channel string, bytecode []byte) {
+	Publisher.Send(channel, zmq.SNDMORE)
+	Publisher.Send(string(bytecode), 0)
+}

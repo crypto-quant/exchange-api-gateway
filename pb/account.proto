@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "out/pb_account";
+
+message Account {
+
+  message Asset {
+    string symbol = 1;
+    double available = 2;
+    double locked = 3;
+  }
+
+  repeated Asset assets = 1;
+  int64 date  = 2;
+  string eventType = 3;
+}

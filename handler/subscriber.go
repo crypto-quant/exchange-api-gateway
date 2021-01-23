@@ -42,18 +42,33 @@ func SubscribeDepth(c *gin.Context) {
 	c.JSON(200, gin.H{"data": "success"})
 }
 
-// curl -X POST http://127.0.0.1:8080/subscribe_trade -H 'content-type: application/json' -d '{ "pair": "BTC-USDT" }'
-func SubscribeTrade(c *gin.Context) {
-	var params SubscribeParams
-	if err := c.ShouldBindJSON(&params); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
+// curl -X POST http://127.0.0.1:8080/subscribe_account -H 'content-type: application/json' -d '{ "pair": "BTC-USDT" }'
+// func SubscribeAccount(c *gin.Context) {
+// 	var params SubscribeParams
+// 	if err := c.ShouldBindJSON(&params); err != nil {
+// 		c.JSON(400, gin.H{"error": err.Error()})
+// 		return
+// 	}
 
-	err := api.WsApi.SubscribeTrade(common.ParseTradingPair(params.Pair))
-	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(200, gin.H{"data": "success"})
-}
+// 	err := api.WsApi.SubscribeAccount(common.ParseTradingPair(params.Pair))
+// 	if err != nil {
+// 		c.JSON(400, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(200, gin.H{"data": "success"})
+// }
+
+// func SubscribeOrder(c *gin.Context) {
+// 	var params SubscribeParams
+// 	if err := c.ShouldBindJSON(&params); err != nil {
+// 		c.JSON(400, gin.H{"error": err.Error()})
+// 		return
+// 	}
+
+// 	err := api.WsApi.SubscribeOrder(common.ParseTradingPair(params.Pair))
+// 	if err != nil {
+// 		c.JSON(400, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(200, gin.H{"data": "success"})
+// }
