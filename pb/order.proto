@@ -20,5 +20,4 @@ message Order {
   int64 orderTime = 13;
   int64 finishedTime = 14;
   int64 tradeId = 15;
-  string cancelledClientOrderId = 16;
 }

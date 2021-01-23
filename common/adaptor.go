@@ -8,17 +8,17 @@ func AdaptOrderStatus(status string) pb_common.OrderStatus {
 	var tradeStatus pb_common.OrderStatus
 	switch status {
 	case "NEW":
-		tradeStatus = pb_common.OrderStatus_ORDER_UNFINISH
+		tradeStatus = pb_common.OrderStatus_ORDER_NEW
 	case "FILLED":
-		tradeStatus = pb_common.OrderStatus_ORDER_FINISH
+		tradeStatus = pb_common.OrderStatus_ORDER_FILLED
 	case "PARTIALLY_FILLED":
-		tradeStatus = pb_common.OrderStatus_ORDER_PART_FINISH
+		tradeStatus = pb_common.OrderStatus_ORDER_PARTIALLY_FILLED
 	case "CANCELED":
-		tradeStatus = pb_common.OrderStatus_ORDER_CANCEL
+		tradeStatus = pb_common.OrderStatus_ORDER_CANCELLED
 	case "PENDING_CANCEL":
-		tradeStatus = pb_common.OrderStatus_ORDER_CANCEL_ING
+		tradeStatus = pb_common.OrderStatus_ORDER_PENDING_CANCEL
 	case "REJECTED":
-		tradeStatus = pb_common.OrderStatus_ORDER_REJECT
+		tradeStatus = pb_common.OrderStatus_ORDER_REJECTED
 	}
 	return tradeStatus
 }

@@ -84,23 +84,22 @@ func PubPBDepth(depth *goex.Depth) {
 func PubPBOrderUpdate(order *binance.OrderUpdate) {
 	Publisher.Send("order", zmq.SNDMORE)
 	t := &pb_order.Order{
-		Pair:                   common.AdaptSymbolToTradingPair(order.Data.Symbol),
-		Price:                  order.Data.Price,
-		Amount:                 order.Data.Quantity,
-		DealAmount:             order.Data.CumulativeFilledQuantity,
-		Side:                   common.AdaptTradeSide(order.Data.Side),
-		Status:                 common.AdaptOrderStatus(order.Data.OrderStatus),
-		Cid:                    order.Data.ClientOrderID,
-		OrderId:                order.Data.OrderID,
-		TimeInForce:            order.Data.TimeInForce,
-		OrderType:              order.Data.OrderType,
-		OrderTime:              order.Data.OrderCreationTime,
-		FinishedTime:           order.Data.TransactionTime,
-		TradeId:                order.Data.TradeID,
-		CancelledClientOrderId: order.Data.CancelledClientOrderID,
+		Pair:         common.AdaptSymbolToTradingPair(order.Data.Symbol),
+		Price:        order.Data.Price,
+		Amount:       order.Data.Quantity,
+		DealAmount:   order.Data.CumulativeFilledQuantity,
+		Side:         common.AdaptTradeSide(order.Data.Side),
+		Status:       common.AdaptOrderStatus(order.Data.OrderStatus),
+		Cid:          order.Data.ClientOrderID,
+		OrderId:      order.Data.OrderID,
+		TimeInForce:  order.Data.TimeInForce,
+		OrderType:    order.Data.OrderType,
+		OrderTime:    order.Data.OrderCreationTime,
+		FinishedTime: order.Data.TransactionTime,
+		TradeId:      order.Data.TradeID,
 	}
 	if t.Cid == "" {
-		t.Cid = t.CancelledClientOrderId
+		t.Cid = order.Data.CancelledClientOrderID
 	}
 	pbData, err := proto.Marshal(t)
 	if err != nil {
