@@ -37,6 +37,7 @@ func PubJson(channel string, data interface{}) {
 func PubPBTicker(ticker *goex.Ticker) {
 	t := &pb_ticker.Ticker{
 		Pair: ticker.Pair.ToSymbol(common.Separater),
+		Open: ticker.Open,
 		Last: ticker.Last,
 		Buy:  ticker.Buy,
 		Sell: ticker.Sell,

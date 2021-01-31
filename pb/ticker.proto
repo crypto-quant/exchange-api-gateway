@@ -11,4 +11,5 @@ message Ticker {
   double low  = 6;
   double vol  = 7;
   int64 date  = 8;
+  double open = 9;
 }
